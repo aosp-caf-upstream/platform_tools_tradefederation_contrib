@@ -5,6 +5,7 @@
     <target_preparer class="com.android.tradefed.targetprep.TestAppInstallSetup">
         <option name="test-file-name" value="mediaframeworktest.apk" />
     </target_preparer>
+    <target_preparer class="com.android.tradefed.targetprep.PushFilePreparer" />
     <target_preparer class="com.android.tradefed.targetprep.InstallApkSetup" />
     <target_preparer class="com.android.tradefed.targetprep.TimeWaster" />
     <target_preparer class="com.android.tradefed.targetprep.TemperatureThrottlingWaiter" />
