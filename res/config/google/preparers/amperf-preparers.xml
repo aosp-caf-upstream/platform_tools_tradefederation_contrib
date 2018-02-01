@@ -15,4 +15,6 @@
 -->
 <configuration description="ActivityManager Performance Tests Target Preparers">
     <target_preparer class="com.android.tradefed.targetprep.AddWhitelistPackage" />
+
+    <include name="google/template/preparers/performance" />
 </configuration>
