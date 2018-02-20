@@ -18,7 +18,6 @@ package com.android.media.tests;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import com.android.ddmlib.NullOutputReceiver;
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.media.tests.AudioLoopbackImageAnalyzer.Result;
 import com.android.media.tests.AudioLoopbackTestHelper.LogFileType;
 import com.android.media.tests.AudioLoopbackTestHelper.ResultData;
@@ -30,6 +29,7 @@ import com.android.tradefed.result.FileInputStreamSource;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.InputStreamSource;
 import com.android.tradefed.result.LogDataType;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
@@ -492,7 +492,7 @@ public class AudioLoopbackTest implements IDeviceTest, IRemoteTest {
             throws UnsupportedOperationException, DeviceNotAvailableException {
 
         mFileDataKeyMap = getLogFileDataKeyMap();
-        TestIdentifier testId = new TestIdentifier(getClass().getCanonicalName(), mRunKey);
+        TestDescription testId = new TestDescription(getClass().getCanonicalName(), mRunKey);
 
         // Allocate helpers
         mTestRunHelper = new TestRunHelper(listener, testId);

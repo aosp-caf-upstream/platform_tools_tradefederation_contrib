@@ -16,12 +16,12 @@
 
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.Option;
 import com.android.tradefed.config.Option.Importance;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.CommandResult;
@@ -61,7 +61,7 @@ public class VideoMultimeterRunner extends VideoMultimeterTest
     public void run(ITestInvocationListener listener)
             throws DeviceNotAvailableException {
         long durationMs = 0;
-        TestIdentifier testId = new TestIdentifier(getClass()
+        TestDescription testId = new TestDescription(getClass()
                 .getCanonicalName(), RUN_KEY);
 
         listener.testRunStarted(RUN_KEY, 0);

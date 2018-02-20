@@ -16,12 +16,12 @@
 
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IFileEntry;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.util.FileUtil;
 
 import java.io.BufferedReader;
@@ -80,7 +80,7 @@ public class Camera2FrameworkStressTest extends CameraTestBase {
         }
 
         @Override
-        public void handleMetricsOnTestEnded(TestIdentifier test, Map<String, String> testMetrics) {
+        public void handleMetricsOnTestEnded(TestDescription test, Map<String, String> testMetrics) {
             if (testMetrics == null) {
                 return; // No-op if there is nothing to post.
             }
@@ -90,7 +90,7 @@ public class Camera2FrameworkStressTest extends CameraTestBase {
         }
 
         @Override
-        public void testEnded(TestIdentifier test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
             if (hasTestRunFatalError()) {
                 CLog.v("The instrumentation result not found. Fall back to get the metrics from a "
                         + "log file. errorMsg: %s", getCollectingListener().getErrorMessage());

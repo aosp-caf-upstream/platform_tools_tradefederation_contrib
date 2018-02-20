@@ -16,12 +16,12 @@
 
 package com.android.example;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.Option;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IManagedTestDevice;
 import com.android.tradefed.device.ITestDevice;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 
@@ -45,13 +45,13 @@ public class RebootTest implements IRemoteTest, IDeviceTest {
     public void run(ITestInvocationListener listener) throws DeviceNotAvailableException {
         long start;
         Map<String, String> emptyMap = Collections.emptyMap();
-        TestIdentifier testId;
+        TestDescription testId;
         start = System.currentTimeMillis();
         listener.testRunStarted(String.format("#%d device reboots", mNumDeviceReboots),
                                 mNumDeviceReboots);
         try {
             for (int testCount = 0; testCount < mNumDeviceReboots; testCount++) {
-                testId = new TestIdentifier("RebootTest",
+                testId = new TestDescription("RebootTest",
                                             String.format("RebootLoop #%d", testCount));
                 listener.testStarted(testId);
                 try {

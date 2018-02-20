@@ -15,9 +15,9 @@
  */
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +28,9 @@ public class TestRunHelper {
     private long mTestStartTime = -1;
     private long mTestStopTime = -1;
     private ITestInvocationListener mListener;
-    private TestIdentifier mTestId;
+    private TestDescription mTestId;
 
-    public TestRunHelper(ITestInvocationListener listener, TestIdentifier testId) {
+    public TestRunHelper(ITestInvocationListener listener, TestDescription testId) {
         mListener = listener;
         mTestId = testId;
     }
