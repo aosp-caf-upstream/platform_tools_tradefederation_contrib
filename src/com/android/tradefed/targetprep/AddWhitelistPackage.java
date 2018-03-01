@@ -20,6 +20,7 @@ import com.android.tradefed.config.Option;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.ITestDevice;
+import com.android.tradefed.log.LogUtil.CLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class AddWhitelistPackage extends BaseTargetPreparer implements ITargetCl
             device.executeShellCommand(
                     String.format("dumpsys deviceidle whitelist +%s", pkg));
         }
+
+        CLog.d(device.executeShellCommand("dumpsys deviceidle whitelist"));
     }
 
     @Override
