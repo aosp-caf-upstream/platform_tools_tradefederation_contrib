@@ -20,6 +20,7 @@ import com.android.tradefed.config.Option;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.ITestDevice;
+import com.android.tradefed.log.LogUtil.CLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +30,6 @@ import java.util.List;
  */
 @OptionClass(alias = "add-whitelist-package")
 public class AddWhitelistPackage extends BaseTargetPreparer implements ITargetCleaner {
-
-    @Option(
-            name = "whitelist-package-time",
-            description = "Duration to put package in whitelist",
-            isTimeVal = true
-    )
-    private long mDurationMillis = 10000L;
-
     @Option(
             name = "whitelist-package-name",
             description = "Name of package to put in whitelist"
@@ -48,9 +41,10 @@ public class AddWhitelistPackage extends BaseTargetPreparer implements ITargetCl
             throws TargetSetupError, BuildError, DeviceNotAvailableException {
         for (String pkg : mPackages) {
             device.executeShellCommand(
-                    String.format("dumpsys deviceidle tempwhitelist -d %d %s", mDurationMillis,
-                            pkg));
+                    String.format("dumpsys deviceidle whitelist +%s", pkg));
         }
+
+        CLog.d(device.executeShellCommand("dumpsys deviceidle whitelist"));
     }
 
     @Override
@@ -58,7 +52,7 @@ public class AddWhitelistPackage extends BaseTargetPreparer implements ITargetCl
             throws DeviceNotAvailableException {
         for (String pkg : mPackages) {
             device.executeShellCommand(
-                    String.format("dumpsys deviceidle tempwhitelist -r %s", pkg));
+                    String.format("dumpsys deviceidle whitelist -%s", pkg));
         }
     }
 }

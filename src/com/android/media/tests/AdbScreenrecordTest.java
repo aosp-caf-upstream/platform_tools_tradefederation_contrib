@@ -16,13 +16,13 @@
 package com.android.media.tests;
 
 import com.android.ddmlib.CollectingOutputReceiver;
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.Option;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IFileEntry;
 import com.android.tradefed.device.ITestDevice;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.CommandResult;
@@ -354,7 +354,7 @@ public class AdbScreenrecordTest implements IDeviceTest, IRemoteTest {
     /** Performs test initialization steps */
     private void initializeTest(ITestInvocationListener listener)
             throws UnsupportedOperationException, DeviceNotAvailableException {
-        TestIdentifier testId = new TestIdentifier(getClass().getCanonicalName(), mRunKey);
+        TestDescription testId = new TestDescription(getClass().getCanonicalName(), mRunKey);
 
         // Allocate helpers
         mTestRunHelper = new TestRunHelper(listener, testId);

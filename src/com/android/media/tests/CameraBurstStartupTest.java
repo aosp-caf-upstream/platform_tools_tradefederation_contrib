@@ -16,11 +16,11 @@
 
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class CameraBurstStartupTest extends CameraTestBase {
         }
 
         @Override
-        public void handleMetricsOnTestEnded(TestIdentifier test, Map<String, String> testMetrics) {
+        public void handleMetricsOnTestEnded(TestDescription test, Map<String, String> testMetrics) {
             // Test metrics accumulated will be posted at the end of test run.
             getAggregatedMetrics().putAll(parseResults(test.getTestName(), testMetrics));
         }

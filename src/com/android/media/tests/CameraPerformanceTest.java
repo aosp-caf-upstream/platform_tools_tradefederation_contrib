@@ -16,11 +16,11 @@
 
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.util.FileUtil;
 
 import com.google.common.collect.ImmutableMap;
@@ -117,7 +117,7 @@ public class CameraPerformanceTest extends CameraTestBase {
         }
 
         @Override
-        public void handleMetricsOnTestEnded(TestIdentifier test, Map<String, String> testMetrics) {
+        public void handleMetricsOnTestEnded(TestDescription test, Map<String, String> testMetrics) {
             // Pass the test name for a key in the aggregated metrics, because
             // it is used to generate the key of the final metrics to post at the end of test run.
             for (Map.Entry<String, String> metric : testMetrics.entrySet()) {

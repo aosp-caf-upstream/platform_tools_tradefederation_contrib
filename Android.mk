@@ -14,7 +14,7 @@
 
 LOCAL_PATH := $(call my-dir)
 COMPATIBILITY.tradefed_tests_dir := \
-  $(COMPATIBILITY.tradefed_tests_dir) $(LOCAL_PATH)/res/config $(LOCAL_PATH)/prod-tests/res/config
+  $(COMPATIBILITY.tradefed_tests_dir) $(LOCAL_PATH)/res/config
 
 include $(CLEAR_VARS)
 
