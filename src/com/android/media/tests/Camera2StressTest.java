@@ -16,7 +16,6 @@
 
 package com.android.media.tests;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IFileEntry;
@@ -24,6 +23,7 @@ import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.FileInputStreamSource;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.LogDataType;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.util.FileUtil;
 
 import java.io.BufferedReader;
@@ -75,7 +75,7 @@ public class Camera2StressTest extends CameraTestBase {
         }
 
         @Override
-        public void testEnded(TestIdentifier test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
             if (hasTestRunFatalError()) {
                 CLog.v("The instrumentation result not found. Fall back to get the metrics from a "
                         + "log file. errorMsg: %s", getCollectingListener().getErrorMessage());
@@ -100,7 +100,7 @@ public class Camera2StressTest extends CameraTestBase {
             super.testEnded(test, endTime, namedTestMetrics);
         }
 
-        private void postScreenshotOnFailure(TestIdentifier test) {
+        private void postScreenshotOnFailure(TestDescription test) {
             File tmpDir = null;
             try {
                 IFileEntry screenshotDir = getDevice().getFileEntry(FAILURE_SCREENSHOT_DIR);

@@ -17,7 +17,6 @@
 package com.android.media.tests;
 
 import com.android.ddmlib.CollectingOutputReceiver;
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.android.tradefed.config.IConfiguration;
 import com.android.tradefed.config.IConfigurationReceiver;
 import com.android.tradefed.config.Option;
@@ -30,6 +29,7 @@ import com.android.tradefed.result.FileInputStreamSource;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.InputStreamSource;
 import com.android.tradefed.result.LogDataType;
+import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.testtype.InstrumentationTest;
@@ -251,7 +251,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
          * @param test identifies the test
          * @param testMetrics a {@link Map} of the metrics emitted
          */
-        abstract public void handleMetricsOnTestEnded(TestIdentifier test,
+        abstract public void handleMetricsOnTestEnded(TestDescription test,
                 Map<String, String> testMetrics);
 
         /**
@@ -280,7 +280,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
          * @param testMetrics a {@link Map} of the metrics emitted
          */
         @Override
-        public void testEnded(TestIdentifier test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
             super.testEnded(test, endTime, testMetrics);
             handleMetricsOnTestEnded(test, testMetrics);
             stopDumping(test);
@@ -288,14 +288,14 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
         }
 
         @Override
-        public void testStarted(TestIdentifier test, long startTime) {
+        public void testStarted(TestDescription test, long startTime) {
             super.testStarted(test, startTime);
             startDumping(test);
             mListener.testStarted(test, startTime);
         }
 
         @Override
-        public void testFailed(TestIdentifier test, String trace) {
+        public void testFailed(TestDescription test, String trace) {
             super.testFailed(test, trace);
             // If the test failed to run to complete, this is an exceptional case.
             // Let this test run fail so that it can rerun.
@@ -338,7 +338,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             mListener.testLog(dataName, dataType, dataStream);
         }
 
-        protected void startDumping(TestIdentifier test) {
+        protected void startDumping(TestDescription test) {
             if (shouldDumpMeminfo()) {
                 mMeminfoTimer.start(test);
             }
@@ -347,7 +347,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             }
         }
 
-        protected void stopDumping(TestIdentifier test) {
+        protected void stopDumping(TestDescription test) {
             InputStreamSource outputSource = null;
             File outputFile = null;
             if (shouldDumpMeminfo()) {
@@ -415,7 +415,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
         }
 
         @Override
-        public void handleMetricsOnTestEnded(TestIdentifier test, Map<String, String> testMetrics) {
+        public void handleMetricsOnTestEnded(TestDescription test, Map<String, String> testMetrics) {
             if (testMetrics == null) {
                 return; // No-op if there is nothing to post.
             }
@@ -460,7 +460,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             }
         }
 
-        synchronized void start(TestIdentifier test) {
+        synchronized void start(TestDescription test) {
             if (isRunning()) {
                 stop();
             }
@@ -493,7 +493,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             return mOutputFile;
         }
 
-        private File createOutputFile(TestIdentifier test) {
+        private File createOutputFile(TestDescription test) {
             try {
                 mOutputFile = FileUtil.createTempFile(
                         String.format("meminfo_%s", test.getTestName()), "csv");
@@ -608,7 +608,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             mPeriodMs = periodMs;
         }
 
-        synchronized void start(TestIdentifier test) {
+        synchronized void start(TestDescription test) {
             if (isRunning()) {
                 stop();
             }
@@ -641,7 +641,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             return mOutputFile;
         }
 
-        File createOutputFile(TestIdentifier test) {
+        File createOutputFile(TestDescription test) {
             try {
                 mOutputFile = FileUtil.createTempFile(
                         String.format("ps_%s", test.getTestName()), "txt");
