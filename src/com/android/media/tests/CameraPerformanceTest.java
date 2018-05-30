@@ -22,6 +22,7 @@ import com.android.tradefed.log.LogUtil.CLog;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.util.FileUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -132,7 +133,7 @@ public class CameraPerformanceTest extends CameraTestBase {
                 Map<String, String> runMetrics) {
             // Report metrics at the end of test run.
             Map<String, String> result = parseResult(getAggregatedMetrics());
-            listener.testRunEnded(getTestDurationMs(), result);
+            listener.testRunEnded(getTestDurationMs(), TfMetricProtoUtil.upgradeConvert(result));
         }
     }
 
@@ -508,7 +509,6 @@ public class CameraPerformanceTest extends CameraTestBase {
         private static final String JSON_RESULT_FILE =
                 "/sdcard/report-log-files/CtsCameraTestCases.reportlog.json";
         private static final String CAMERA_ID_KEY = "camera_id";
-        private static final String AVERAGE_LATENCY_KEY = "average_latency";
         private static final String REPROCESS_TYPE_KEY = "reprocess_type";
         private static final String CAPTURE_MESSAGE_KEY = "capture_message";
         private static final String LATENCY_KEY = "latency";

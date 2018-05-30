@@ -20,6 +20,7 @@ import com.android.tradefed.config.Option;
 import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.log.LogUtil.CLog;
+import com.android.tradefed.metrics.proto.MetricMeasurement.Metric;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.targetprep.BuildError;
@@ -27,10 +28,10 @@ import com.android.tradefed.targetprep.ITargetPreparer;
 import com.android.tradefed.targetprep.TargetSetupError;
 import com.android.tradefed.targetprep.TemperatureThrottlingWaiter;
 import com.android.tradefed.util.MultiMap;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -112,11 +113,12 @@ public class CameraStartupTest extends CameraTestBase {
         CLog.e("The instrumentation result not found. Test runs may have failed due to exceptions."
                 + " Test results will not be posted. errorMsg: %s", errorMessage);
         listener.testRunFailed(errorMessage);
-        listener.testRunEnded(mTestRunsDurationMs, Collections.<String, String>emptyMap());
+        listener.testRunEnded(mTestRunsDurationMs, new HashMap<String, Metric>());
     }
 
     private void postMultipleRunMetrics(ITestInvocationListener listener) {
-        listener.testRunEnded(mTestRunsDurationMs, getAverageMultipleRunMetrics());
+        listener.testRunEnded(mTestRunsDurationMs,
+                TfMetricProtoUtil.upgradeConvert(getAverageMultipleRunMetrics()));
     }
 
     private void postSetupTestRun() throws DeviceNotAvailableException {

@@ -16,8 +16,10 @@
 package com.android.media.tests;
 
 import com.android.tradefed.log.LogUtil.CLog;
+import com.android.tradefed.metrics.proto.MetricMeasurement.Metric;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.TestDescription;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,15 +45,15 @@ public class TestRunHelper {
         CLog.e(errMsg);
         mListener.testRunFailed(errMsg);
         mListener.testFailed(mTestId, errMsg);
-        mListener.testEnded(mTestId, new HashMap<String, String>());
+        mListener.testEnded(mTestId, new HashMap<String, Metric>());
         throw new TestFailureException();
     }
 
     /** @param resultDictionary */
     public void endTest(Map<String, String> resultDictionary) {
         mTestStopTime = System.currentTimeMillis();
-        mListener.testRunEnded(getTotalTestTime(), resultDictionary);
-        mListener.testEnded(mTestId, resultDictionary);
+        mListener.testRunEnded(getTotalTestTime(), TfMetricProtoUtil.upgradeConvert(resultDictionary));
+        mListener.testEnded(mTestId, TfMetricProtoUtil.upgradeConvert(resultDictionary));
     }
 
     public void startTest(int numberOfTests) {

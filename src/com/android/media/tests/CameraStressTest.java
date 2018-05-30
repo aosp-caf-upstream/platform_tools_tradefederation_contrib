@@ -33,6 +33,7 @@ import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.RegexTrie;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import junit.framework.TestCase;
 
@@ -354,7 +355,7 @@ public class CameraStressTest implements IDeviceTest, IRemoteTest {
         Log.e(LOG_TAG, String.format("About to report metrics for %s: %s", test.mTestMetricsName,
                 metrics));
         listener.testRunStarted(test.mTestMetricsName, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     @Override

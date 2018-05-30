@@ -31,6 +31,7 @@ import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.CommandResult;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -347,8 +348,8 @@ public class VideoMultimeterTest implements IDeviceTest, IRemoteTest {
         }
 
         long durationMs = System.currentTimeMillis() - testStartTime;
-        listener.testEnded(testId, metrics);
-        listener.testRunEnded(durationMs, metrics);
+        listener.testEnded(testId, TfMetricProtoUtil.upgradeConvert(metrics));
+        listener.testRunEnded(durationMs, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     /**

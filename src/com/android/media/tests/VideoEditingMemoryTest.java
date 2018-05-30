@@ -35,6 +35,7 @@ import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -253,7 +254,7 @@ public class VideoEditingMemoryTest implements IDeviceTest, IRemoteTest {
     void reportMetrics(ITestInvocationListener listener, String outputFile) {
         Log.d(LOG_TAG, String.format("About to report metrics: %s", mRunMetrics));
         listener.testRunStarted(mKeyMap.get(outputFile), 0);
-        listener.testRunEnded(0, mRunMetrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(mRunMetrics));
     }
 
     @Override

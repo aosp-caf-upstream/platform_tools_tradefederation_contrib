@@ -35,6 +35,7 @@ import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.RegexTrie;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -242,7 +243,7 @@ public class VideoEditingPerformanceTest implements IDeviceTest, IRemoteTest {
             Map<String, String> metrics) {
         Log.d(LOG_TAG, String.format("About to report metrics: %s", metrics));
         listener.testRunStarted(METRICS_RUN_NAME, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     @Override
