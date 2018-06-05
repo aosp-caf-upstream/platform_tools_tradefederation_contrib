@@ -35,6 +35,7 @@ import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -265,7 +266,7 @@ public class MediaMemoryTest implements IDeviceTest, IRemoteTest {
     void reportMetrics(ITestInvocationListener listener, Map<String, String> metrics) {
         CLog.d("About to report metrics: %s", metrics);
         listener.testRunStarted(METRICS_RUN_NAME, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     @Override

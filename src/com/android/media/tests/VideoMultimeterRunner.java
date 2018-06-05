@@ -25,6 +25,7 @@ import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.CommandResult;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,9 +90,9 @@ public class VideoMultimeterRunner extends VideoMultimeterTest
             listener.testFailed(testId, "Failed to acquire run token");
         } finally {
             runToken.release();
-            listener.testEnded(testId, metrics);
+            listener.testEnded(testId, TfMetricProtoUtil.upgradeConvert(metrics));
             durationMs = System.currentTimeMillis() - testStartTime;
-            listener.testRunEnded(durationMs, metrics);
+            listener.testRunEnded(durationMs, TfMetricProtoUtil.upgradeConvert(metrics));
         }
     }
 

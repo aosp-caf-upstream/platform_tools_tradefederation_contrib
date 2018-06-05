@@ -24,6 +24,7 @@ import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -120,12 +121,12 @@ public class AudioJitterTest implements IDeviceTest, IRemoteTest {
         if (errMsg != null) {
             CLog.e(errMsg);
             listener.testFailed(testId, errMsg);
-            listener.testEnded(testId, metrics);
+            listener.testEnded(testId, TfMetricProtoUtil.upgradeConvert(metrics));
             listener.testRunFailed(errMsg);
         } else {
             long durationMs = System.currentTimeMillis() - testStartTime;
-            listener.testEnded(testId, metrics);
-            listener.testRunEnded(durationMs, metrics);
+            listener.testEnded(testId, TfMetricProtoUtil.upgradeConvert(metrics));
+            listener.testRunEnded(durationMs, TfMetricProtoUtil.upgradeConvert(metrics));
         }
     }
 

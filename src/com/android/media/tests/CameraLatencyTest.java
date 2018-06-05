@@ -33,6 +33,7 @@ import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.RegexTrie;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import junit.framework.TestCase;
 
@@ -174,7 +175,7 @@ public class CameraLatencyTest implements IDeviceTest, IRemoteTest {
             InputStreamSource bugreport = mTestDevice.getBugreport();
             listener.testLog(String.format("bugreport-%s.txt", test.mTestName),
                     LogDataType.BUGREPORT, bugreport);
-            bugreport.cancel();
+            bugreport.close();
         }
     }
 
@@ -273,7 +274,7 @@ public class CameraLatencyTest implements IDeviceTest, IRemoteTest {
         // Create an empty testRun to report the parsed runMetrics
         CLog.d("About to report metrics for %s: %s", test.mTestMetricsName, metrics);
         listener.testRunStarted(test.mTestMetricsName, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     @Override

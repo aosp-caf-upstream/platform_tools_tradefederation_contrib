@@ -37,6 +37,7 @@ import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.IRunUtil;
 import com.android.tradefed.util.RunUtil;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -284,7 +285,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
             super.testEnded(test, endTime, testMetrics);
             handleMetricsOnTestEnded(test, testMetrics);
             stopDumping(test);
-            mListener.testEnded(test, endTime, testMetrics);
+            mListener.testEnded(test, endTime, TfMetricProtoUtil.upgradeConvert(testMetrics));
         }
 
         @Override
@@ -426,7 +427,7 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
         public void handleTestRunEnded(ITestInvocationListener listener, long elapsedTime,
                 Map<String, String> runMetrics) {
             // Post aggregated metrics at the end of test run.
-            listener.testRunEnded(getTestDurationMs(), getAggregatedMetrics());
+            listener.testRunEnded(getTestDurationMs(), TfMetricProtoUtil.upgradeConvert(getAggregatedMetrics()));
         }
     }
 
