@@ -23,6 +23,7 @@ import com.android.tradefed.config.Option;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.ITestDevice;
 import com.android.tradefed.log.LogUtil.CLog;
+import com.android.tradefed.metrics.proto.MetricMeasurement.Metric;
 import com.android.tradefed.result.ByteArrayInputStreamSource;
 import com.android.tradefed.result.CollectingTestListener;
 import com.android.tradefed.result.FileInputStreamSource;
@@ -281,11 +282,12 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
          * @param testMetrics a {@link Map} of the metrics emitted
          */
         @Override
-        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(
+                TestDescription test, long endTime, HashMap<String, Metric> testMetrics) {
             super.testEnded(test, endTime, testMetrics);
-            handleMetricsOnTestEnded(test, testMetrics);
+            handleMetricsOnTestEnded(test, TfMetricProtoUtil.compatibleConvert(testMetrics));
             stopDumping(test);
-            mListener.testEnded(test, endTime, TfMetricProtoUtil.upgradeConvert(testMetrics));
+            mListener.testEnded(test, endTime, testMetrics);
         }
 
         @Override
@@ -314,9 +316,10 @@ public class CameraTestBase implements IDeviceTest, IRemoteTest, IConfigurationR
         }
 
         @Override
-        public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
+        public void testRunEnded(long elapsedTime, HashMap<String, Metric> runMetrics) {
             super.testRunEnded(elapsedTime, runMetrics);
-            handleTestRunEnded(mListener, elapsedTime, runMetrics);
+            handleTestRunEnded(mListener, elapsedTime,
+                    TfMetricProtoUtil.compatibleConvert(runMetrics));
             // never be called since handleTestRunEnded will handle it if needed.
             //mListener.testRunEnded(elapsedTime, runMetrics);
         }
