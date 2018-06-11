@@ -30,6 +30,7 @@ import com.android.tradefed.result.LogDataType;
 import com.android.tradefed.testtype.IDeviceTest;
 import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -213,10 +214,10 @@ public class CameraSettingsTest implements IDeviceTest, IRemoteTest {
             Map<String, String> metrics) {
         InputStreamSource bugreport = mTestDevice.getBugreport();
         listener.testLog("bugreport", LogDataType.BUGREPORT, bugreport);
-        bugreport.cancel();
+        bugreport.close();
 
         CLog.d(String.format("About to report metrics: %s", metrics));
         listener.testRunStarted(runName, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 }

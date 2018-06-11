@@ -37,6 +37,7 @@ import com.android.tradefed.testtype.IRemoteTest;
 import com.android.tradefed.util.FileUtil;
 import com.android.tradefed.util.RegexTrie;
 import com.android.tradefed.util.StreamUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import org.junit.Assert;
 
@@ -197,7 +198,7 @@ public class MediaPlayerStressTest implements IDeviceTest, IRemoteTest {
     void reportMetrics(ITestInvocationListener listener, Map<String, String> metrics) {
         Log.d(LOG_TAG, String.format("About to report metrics: %s", metrics));
         listener.testRunStarted(mMetricsRunName, 0);
-        listener.testRunEnded(0, metrics);
+        listener.testRunEnded(0, TfMetricProtoUtil.upgradeConvert(metrics));
     }
 
     @Override
