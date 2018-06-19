@@ -20,9 +20,11 @@ import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IFileEntry;
 import com.android.tradefed.log.LogUtil.CLog;
+import com.android.tradefed.metrics.proto.MetricMeasurement.Metric;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.TestDescription;
 import com.android.tradefed.util.FileUtil;
+import com.android.tradefed.util.proto.TfMetricProtoUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -90,14 +92,15 @@ public class Camera2FrameworkStressTest extends CameraTestBase {
         }
 
         @Override
-        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(
+                TestDescription test, long endTime, HashMap<String, Metric> testMetrics) {
             if (hasTestRunFatalError()) {
                 CLog.v("The instrumentation result not found. Fall back to get the metrics from a "
                         + "log file. errorMsg: %s", getCollectingListener().getErrorMessage());
             }
 
             // For stress test, parse the metrics from a log file.
-            testMetrics = parseLog(test.getTestName());
+            testMetrics = TfMetricProtoUtil.upgradeConvert(parseLog(test.getTestName()));
             super.testEnded(test, endTime, testMetrics);
         }
 

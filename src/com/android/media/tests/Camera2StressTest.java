@@ -20,6 +20,7 @@ import com.android.tradefed.config.OptionClass;
 import com.android.tradefed.device.DeviceNotAvailableException;
 import com.android.tradefed.device.IFileEntry;
 import com.android.tradefed.log.LogUtil.CLog;
+import com.android.tradefed.metrics.proto.MetricMeasurement.Metric;
 import com.android.tradefed.result.FileInputStreamSource;
 import com.android.tradefed.result.ITestInvocationListener;
 import com.android.tradefed.result.LogDataType;
@@ -75,7 +76,8 @@ public class Camera2StressTest extends CameraTestBase {
         }
 
         @Override
-        public void testEnded(TestDescription test, long endTime, Map<String, String> testMetrics) {
+        public void testEnded(
+                TestDescription test, long endTime, HashMap<String, Metric> testMetrics) {
             if (hasTestRunFatalError()) {
                 CLog.v("The instrumentation result not found. Fall back to get the metrics from a "
                         + "log file. errorMsg: %s", getCollectingListener().getErrorMessage());
@@ -89,8 +91,10 @@ public class Camera2StressTest extends CameraTestBase {
 
             // add testMethod name to the metric
             Map<String, String> namedTestMetrics = new HashMap<>();
-            for (Entry<String, String> entry : testMetrics.entrySet()) {
-                namedTestMetrics.put(test.getTestName() + entry.getKey(), entry.getValue());
+            for (Entry<String, Metric> entry : testMetrics.entrySet()) {
+                namedTestMetrics.put(
+                        test.getTestName() + entry.getKey(),
+                        entry.getValue().getMeasurements().getSingleString());
             }
 
             // parse the iterations metrics from the stress log files
